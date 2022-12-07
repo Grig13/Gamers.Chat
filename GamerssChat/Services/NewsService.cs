@@ -28,7 +28,7 @@ namespace GamerssChat.Services
             return this._newsRepository.Add(newsToAdd);
         }
 
-        public News DeleteNews(Guid id)
+        public void DeleteNews(Guid id)
         {
              this._newsRepository.DeleteById(id);
         }
