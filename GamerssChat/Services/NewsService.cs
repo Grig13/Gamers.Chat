@@ -1,0 +1,36 @@
+﻿using GamerssChat.Models;
+using GamerssChat.Repositories.Interfaces;
+
+namespace GamerssChat.Services
+{
+    public class NewsService
+    {
+
+        private readonly INewsRepository _newsRepository;
+
+        public NewsService(INewsRepository newsRepository)
+        {
+            _newsRepository = newsRepository;
+        }  
+
+        public IEnumerable<News> GetNews()
+        {
+            return this._newsRepository.GetAll();
+        }
+
+        public News GetNewsById(Guid id)
+        {
+            return this._newsRepository.GetById(id);
+        }
+
+        public News AddNews(News newsToAdd)
+        {
+            return this._newsRepository.Add(newsToAdd);
+        }
+
+        public News DeleteNews(Guid id)
+        {
+             this._newsRepository.DeleteById(id);
+        }
+    }
+}
