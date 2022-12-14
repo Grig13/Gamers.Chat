@@ -4,18 +4,16 @@ using GamerssChat.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GamerssChat.Data.Migrations
+namespace GamerssChat.Migrations
 {
     [DbContext(typeof(GamersChatDbContext))]
-    [Migration("20221206165721_InitialCreate")]
-    partial class InitialCreate
+    partial class GamersChatDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,8 +35,6 @@ namespace GamerssChat.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Carts");
                 });
@@ -121,6 +117,9 @@ namespace GamerssChat.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -133,6 +132,8 @@ namespace GamerssChat.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
 
                     b.ToTable("Products");
                 });
@@ -193,17 +194,6 @@ namespace GamerssChat.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("GamerssChat.Models.Cart", b =>
-                {
-                    b.HasOne("GamerssChat.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("GamerssChat.Models.Post", b =>
                 {
                     b.HasOne("GamerssChat.Models.Timeline", null)
@@ -228,6 +218,13 @@ namespace GamerssChat.Data.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("GamerssChat.Models.Product", b =>
+                {
+                    b.HasOne("GamerssChat.Models.Cart", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CartId");
+                });
+
             modelBuilder.Entity("GamerssChat.Models.ProductComment", b =>
                 {
                     b.HasOne("GamerssChat.Models.Product", "Product")
@@ -235,6 +232,11 @@ namespace GamerssChat.Data.Migrations
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("GamerssChat.Models.Cart", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("GamerssChat.Models.Post", b =>

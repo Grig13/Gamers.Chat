@@ -9,7 +9,7 @@ namespace GamerssChat.Repositories.Interfaces
         public Post AddCommentToPost(Guid postId, PostComment commentToAdd);
         public Post RemoveCommentFromPost(Guid postId, PostComment commentToRemove);
         public void DeleteById(Guid id);
-        public Post Update(Cart postToUpdate);
+        public Post Update(Post postToUpdate);
         public Post GetById(Guid id);
     }
 }
